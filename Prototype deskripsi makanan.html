@@ -1,0 +1,442 @@
+<title>Deskripsi Makanan Kelas 7</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap">
+<style>
+/* Layout: satu layar HP di tengah, bilah progres di atas, tombol Kembali/Lanjut tetap di bawah */
+:root{
+  --bg:#f3f1ec; --card:#ffffff; --fg:#1d2733; --muted:#5d6b78; --line:#d9d5cb;
+  --ink:#1d2f3f; --on-ink:#ffffff; --ok:#17663a; --ok-bg:#e0f2e6; --bad:#a3262a; --bad-bg:#fbe4e3;
+  --c-bentuk:#e9e1fb; --t-bentuk:#47308f;
+  --c-bahan:#d8f1e6; --t-bahan:#0f5a3f;
+  --c-rasa:#fde7cf; --t-rasa:#7a3f08;
+  --c-harga:#dbeafb; --t-harga:#1a4f8b;
+  --font:'Nunito',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141a21; --card:#1e2630; --fg:#eef1f4; --muted:#a2aebb; --line:#364250;
+  --ink:#e8eef4; --on-ink:#141a21; --ok:#7fd6a0; --ok-bg:#16382a; --bad:#ff9b9a; --bad-bg:#44201f;
+  --c-bentuk:#3a2f66; --t-bentuk:#d9ccff; --c-bahan:#16463a; --t-bahan:#b4ecd2;
+  --c-rasa:#5a3a17; --t-rasa:#ffd9ad; --c-harga:#1d3f66; --t-harga:#c3dffc; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a21; --card:#1e2630; --fg:#eef1f4; --muted:#a2aebb; --line:#364250;
+  --ink:#e8eef4; --on-ink:#141a21; --ok:#7fd6a0; --ok-bg:#16382a; --bad:#ff9b9a; --bad-bg:#44201f;
+  --c-bentuk:#3a2f66; --t-bentuk:#d9ccff; --c-bahan:#16463a; --t-bahan:#b4ecd2;
+  --c-rasa:#5a3a17; --t-rasa:#ffd9ad; --c-harga:#1d3f66; --t-harga:#c3dffc; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:17px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+#app{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+.top{padding:14px 0 8px}
+.steps{display:flex;gap:4px}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.steps i.on{background:var(--ink)}
+.stepname{font-size:13px;color:var(--muted);margin:8px 0 0;font-weight:600}
+main{flex:1;padding:8px 0 24px}
+h1{font-size:26px;line-height:1.2;margin:8px 0 8px;font-weight:800}
+h2{font-size:21px;line-height:1.25;margin:4px 0 10px;font-weight:800;text-wrap:balance}
+p{margin:0 0 12px}
+.muted{color:var(--muted);font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px}
+button{font-family:inherit;font-size:16px;font-weight:700;border-radius:12px;min-height:46px;padding:10px 16px;cursor:pointer;
+  border:1.5px solid var(--ink);background:transparent;color:var(--fg)}
+button.pri{background:var(--ink);color:var(--on-ink)}
+button.sm{min-height:38px;padding:6px 12px;font-size:14px}
+button:focus-visible,input:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid #3b82f6;outline-offset:2px}
+input[type=text],input[type=number],textarea{width:100%;font-family:inherit;font-size:17px;padding:11px 12px;border-radius:12px;
+  border:1.5px solid var(--line);background:var(--card);color:var(--fg)}
+textarea{min-height:170px;resize:vertical;line-height:1.6}
+label.f{display:block;font-weight:700;margin:0 0 6px;font-size:15px}
+.err{color:var(--bad);font-size:15px;font-weight:600;min-height:22px;margin:6px 0 0}
+.bar{position:sticky;bottom:0;display:flex;gap:10px;align-items:center;justify-content:space-between;background:var(--bg);
+  padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.bar button{flex:1}
+.tools{display:flex;gap:8px;margin:0 0 12px;flex-wrap:wrap}
+.tag{display:inline-block;border-radius:6px;padding:1px 6px;cursor:pointer;font-weight:600}
+.bentuk{background:var(--c-bentuk);color:var(--t-bentuk)}
+.bahan{background:var(--c-bahan);color:var(--t-bahan)}
+.rasa{background:var(--c-rasa);color:var(--t-rasa)}
+.harga{background:var(--c-harga);color:var(--t-harga)}
+.vb{font-weight:800;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.model p{font-size:19px;line-height:2;margin:0}
+.info{background:var(--bg);border-radius:10px;padding:10px 12px;margin-top:12px;font-size:16px;min-height:44px}
+.legend{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;font-size:13px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+.opts button{min-height:52px}
+.opts button.ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.opts button.bad{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+.fb{min-height:48px;font-weight:700;font-size:16px;margin:0 0 8px}
+.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.prog{font-size:14px;color:var(--muted);font-weight:700;margin:0 0 6px}
+.score{font-size:40px;font-weight:800;line-height:1}
+.chip{display:inline-block;border:1.5px solid var(--line);background:var(--card);border-radius:10px;padding:6px 10px;font-size:15px;margin:0 6px 6px 0;cursor:pointer;font-family:inherit;color:var(--fg);min-height:36px}
+.row{margin:0 0 18px}
+.starter{display:flex;align-items:center;gap:8px}
+.starter span{white-space:nowrap;font-weight:700}
+.model-s{background:var(--ok-bg);color:var(--ok);border-radius:10px;padding:8px 10px;margin-top:8px;font-size:15px;font-weight:600}
+.ck{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.ck input{width:24px;height:24px;margin-top:2px;flex:none}
+.sheetbg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sheet{background:var(--card);width:100%;max-width:480px;max-height:80%;overflow:auto;border-radius:18px 18px 0 0;
+  padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.sheet h3{margin:0 0 4px;font-size:19px}
+.cat{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 6px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--on-ink);
+  padding:8px 14px;border-radius:10px;font-size:14px;font-weight:700;z-index:30}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;min-height:38px;font-size:14px;padding:4px 8px}
+.seg button.on{background:var(--ink);color:var(--on-ink)}
+.rec{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.recnum{font-size:20px;font-weight:800}
+pre.t{white-space:pre-wrap;font-family:inherit;margin:8px 0;background:var(--bg);border-radius:10px;padding:10px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div id="app">
+  <div class="top" id="top"></div>
+  <main id="main"></main>
+  <div class="bar" id="bar"></div>
+</div>
+<div id="layer"></div>
+
+<script>
+/* ===== Data ===== */
+var STEPS=['home','goal','model','p1','p2','build','rounds','write','check'];
+var STEPNAME={home:'Mulai',goal:'Tujuan',model:'Teks model',p1:'Latihan 1: kata kerja',p2:'Latihan 2: detail',build:'Menyusun kalimat',rounds:'Latihan ulang',write:'Menulis teksmu',check:'Cek diri dan simpan'};
+var TYPES=['Bentuk / warna','Bahan','Rasa','Harga'];
+var TCLS=['bentuk','bahan','rasa','harga'];
+var BANK=[
+ ['Bentuk / warna','bentuk',[['round','bulat'],['long','panjang'],['small','kecil'],['big','besar'],['yellow','kuning'],['brown','cokelat'],['red','merah'],['white','putih'],['green','hijau']]],
+ ['Bahan','bahan',[['rice','nasi'],['noodles','mi'],['chicken','ayam'],['egg(s)','telur'],['meatballs','bakso'],['vegetables','sayur'],['fish','ikan'],['milk','susu'],['sugar','gula']]],
+ ['Rasa','rasa',[['salty','asin, gurih'],['sweet','manis'],['spicy','pedas'],['sour','asam'],['crispy','renyah'],['cold','dingin'],['hot','panas']]],
+ ['Harga','harga',[['price','harga'],['Rp10.000','sepuluh ribu rupiah']]],
+ ['Kata kerja','vb',[['is','adalah'],['has','punya, berisi'],['tastes','rasanya']]]
+];
+var P1=[
+ {q:'It <b>___</b> round.',opts:['is','are'],a:0,tip:'Untuk It, pakai is.'},
+ {q:'It <b>___</b> meatballs.',opts:['has','have'],a:0,tip:'Untuk It, pakai has.'},
+ {q:'It <b>___</b> sweet.',opts:['taste','tastes'],a:1,tip:'Untuk It, tambahkan -s: tastes.'},
+ {q:'The price <b>___</b> Rp10.000.',opts:['is','are'],a:0,tip:'Price hanya satu, jadi pakai is.'},
+ {q:'Fried rice <b>___</b> my favourite food.',opts:['is','are'],a:0,tip:'Fried rice dianggap satu makanan, jadi pakai is.'},
+ {q:'It <b>___</b> noodles and eggs.',opts:['has','have'],a:0,tip:'Untuk It, pakai has.'}
+];
+function wd(w,a,t){return {q:'Kata <b>"'+w+'"</b> termasuk detail apa?',opts:TYPES,a:a,tip:t}}
+function md(text,a,t){return {q:'<i>'+text+'</i><br>Detail apa yang belum ada?',opts:TYPES,a:a,tip:t}}
+var P2=[
+ wd('round',0,'Round = bulat. Ini bentuk.'),
+ wd('noodles',1,'Noodles = mi. Ini bahan.'),
+ wd('spicy',2,'Spicy = pedas. Ini rasa.'),
+ wd('Rp15.000',3,'Rp15.000 adalah harga.'),
+ md('Fried rice is yellow. It tastes salty. The price is Rp12.000.',1,'Belum ada bahan (ingredients): nasi, telur, ayam.'),
+ md('Bakso is round. It has meatballs and noodles. It tastes salty.',3,'Belum ada harga (price).')
+];
+var R1=[
+ {q:'Mie ayam <b>___</b> noodles and chicken.',opts:['has','have'],a:0,tip:'Mie ayam satu makanan, pakai has.'},
+ {q:'It <b>___</b> salty.',opts:['taste','tastes'],a:1,tip:'Untuk It, tambahkan -s: tastes.'},
+ {q:'Sate <b>___</b> brown.',opts:['is','are'],a:0,tip:'Sate dianggap satu makanan, pakai is.'},
+ wd('brown',0,'Brown = cokelat. Ini warna.'),
+ {q:'The price of sate <b>___</b> Rp20.000.',opts:['is','are'],a:0,tip:'Price hanya satu, pakai is.'}
+];
+var R2=[
+ {q:'Es krim <b>___</b> cold and sweet.',opts:['is','are'],a:0,tip:'Es krim satu makanan, pakai is.'},
+ {q:'It <b>___</b> milk and sugar.',opts:['has','have'],a:0,tip:'Untuk It, pakai has.'},
+ {q:'It <b>___</b> sweet.',opts:['taste','tastes'],a:1,tip:'Untuk It, tambahkan -s: tastes.'},
+ wd('Rp8.000',3,'Rp8.000 adalah harga.'),
+ wd('sugar',1,'Sugar = gula. Ini bahan.')
+];
+var BUILD=[
+ {k:'nama',t:'Nama makanan',pre:'My favourite food is',ph:'bakso',id:'nama makanan favoritmu',cls:'',ex:'My favourite food is bakso.'},
+ {k:'bentuk',t:'Bentuk / warna',pre:'It is',ph:'round and brown',id:'bentuk atau warnanya',cls:'bentuk',ex:'It is round and brown.'},
+ {k:'bahan',t:'Bahan',pre:'It has',ph:'meatballs and noodles',id:'bahan-bahannya',cls:'bahan',ex:'It has meatballs and noodles.'},
+ {k:'rasa',t:'Rasa',pre:'It tastes',ph:'salty and spicy',id:'rasanya',cls:'rasa',ex:'It tastes salty and spicy.'},
+ {k:'harga',t:'Harga',pre:'The price is',ph:'Rp15.000',id:'harganya',cls:'harga',ex:'The price is Rp15.000.'}
+];
+var MODEL=[
+ [['Bakso ',''],['is','vb','Kata kerja: is. Dipakai untuk menyebut apa itu.'],[' my favourite food.','']],
+ [['It ',''],['is','vb','Kata kerja: is.'],[' ',''],['round and brown.','bentuk','Detail bentuk dan warna.']],
+ [['It ',''],['has','vb','Kata kerja: has. Untuk benda yang punya isi atau bahan.'],[' ',''],['meatballs, noodles, and vegetables.','bahan','Detail bahan.']],
+ [['It ',''],['tastes','vb','Kata kerja: tastes. Pakai -s karena It.'],[' ',''],['salty and a little spicy.','rasa','Detail rasa.']],
+ [['The price ',''],['is','vb','Kata kerja: is.'],[' ',''],['Rp15.000.','harga','Detail harga.']]
+];
+
+/* ===== State dan penyimpanan ===== */
+var KEY='deskripsi_makanan_k7_v1', mem={};
+function load(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):{}}catch(e){return mem}}
+function save(o){mem=o;try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+var DB=load(); if(!DB.records) DB.records=[];
+var S={step:0,no:'',scores:{},ideas:{},sent:{},text:'',checks:[false,false,false],quiz:{},round:0,last:null,saved:false};
+var lastField=null;
+
+/* ===== Helpers ===== */
+function $(s){return document.querySelector(s)}
+function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function countSent(t){return t.split(/[.!?]+(?=\s|$)/).filter(function(x){return x.trim().length>1}).length}
+function toast(m){var e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);setTimeout(function(){e.remove()},1600)}
+function go(n){if(n<0||n>=STEPS.length)return;keep();S.step=n;render();window.scrollTo(0,0)}
+function keep(){
+  var e=$('#no'); if(e) S.no=e.value;
+  BUILD.forEach(function(b){var i=$('#id_'+b.k),w=$('#en_'+b.k);if(i)S.ideas[b.k]=i.value;if(w)S.sent[b.k]=w.value});
+  var t=$('#txt'); if(t) S.text=t.value;
+}
+
+/* ===== Layar ===== */
+function render(){
+  var st=STEPS[S.step];
+  var dots='';STEPS.forEach(function(s,i){dots+='<i class="'+(i<=S.step?'on':'')+'"></i>'});
+  $('#top').innerHTML='<div class="steps" aria-hidden="true">'+dots+'</div><p class="stepname">Langkah '+(S.step+1)+' dari '+STEPS.length+' · '+STEPNAME[st]+'</p>';
+  var m=$('#main');
+  if(st==='home') home(m);
+  else if(st==='goal') goal(m);
+  else if(st==='model') model(m);
+  else if(st==='p1') quiz(m,'p1','Latihan 1: pilih kata kerja yang benar',P1);
+  else if(st==='p2') quiz(m,'p2','Latihan 2: kenali detail makanan',P2);
+  else if(st==='build') build(m);
+  else if(st==='rounds') rounds(m);
+  else if(st==='write') write(m);
+  else if(st==='check') check(m);
+  var b=$('#bar');
+  b.innerHTML=(S.step>0?'<button id="bk">Kembali</button>':'')+(S.step<STEPS.length-1?'<button class="pri" id="nx">'+(S.step===0?'Mulai':'Lanjut')+'</button>':'');
+  var bk=$('#bk'); if(bk) bk.onclick=function(){go(S.step-1)};
+  var nx=$('#nx'); if(nx) nx.onclick=next;
+}
+function tools(opts){
+  return '<div class="tools"><button class="sm" id="tw">Daftar kata</button>'+(opts?'<button class="sm" id="tm">Teks model</button>':'')+'</div>';
+}
+function bindTools(){
+  var a=$('#tw'); if(a) a.onclick=bankSheet;
+  var b=$('#tm'); if(b) b.onclick=modelSheet;
+}
+function next(){
+  keep();
+  var st=STEPS[S.step],err='';
+  if(st==='home'){
+    var n=parseInt(S.no,10);
+    if(!S.no||isNaN(n)||n<1||n>99){var e=$('#e0');e.textContent='Masukkan nomor siswa, 1 sampai 99.';return}
+  }
+  if((st==='p1'||st==='p2')&&!(S.quiz[st]&&S.quiz[st].done)) err='Selesaikan semua soal dulu.';
+  if(st==='rounds'&&!(S.quiz.r1&&S.quiz.r1.done&&S.quiz.r2&&S.quiz.r2.done)) err='Selesaikan ronde 1 dan ronde 2 dulu.';
+  if(st==='build'){
+    var empty=BUILD.filter(function(b){return !(S.sent[b.k]||'').trim()});
+    if(empty.length) err='Lengkapi semua kalimat dulu ('+empty.length+' belum diisi).';
+  }
+  if(st==='write'&&countSent(S.text)<1) err='Tulis teksmu dulu.';
+  if(err){toast(err);return}
+  go(S.step+1);
+}
+function home(m){
+  m.innerHTML='<h1>Menulis tentang makanan favoritmu</h1><p class="muted">Bahasa Inggris · Kelas 7 · Teks deskripsi</p>'+
+  '<div class="card"><label class="f" for="no">Nomor siswa</label><input id="no" type="number" inputmode="numeric" min="1" max="99" placeholder="7" value="'+esc(S.no)+'"><div class="err" id="e0"></div>'+
+  '<p class="muted" style="margin:6px 0 0">Cukup nomor, tanpa nama. Jawabanmu tersimpan di HP ini.</p></div>'+
+  '<p><button class="sm" id="gr">Untuk guru: lihat hasil</button></p>';
+  $('#gr').onclick=function(){keep();teacher()};
+  $('#no').oninput=function(){$('#e0').textContent=''};
+}
+function goal(m){
+  m.innerHTML='<h2>Tujuanmu hari ini</h2><div class="card"><p style="font-size:19px"><b>Tulis 5 kalimat</b> tentang makanan favoritmu dalam bahasa Inggris.</p></div>'+
+  '<h2>Teks yang bagus punya:</h2>'+
+  '<div class="card"><div class="ck" style="border:0"><span class="recnum">1</span><span><b>5 kalimat</b> atau lebih.</span></div>'+
+  '<div class="ck"><span class="recnum">2</span><span><b>3 detail</b> atau lebih: bentuk / warna, bahan, rasa, harga.</span></div>'+
+  '<div class="ck" style="border:0"><span class="recnum">3</span><span><b>Kata kerja yang benar</b> di sedikitnya 4 kalimat: is, has, tastes.</span></div></div>'+
+  '<p class="muted">Kamu boleh memakai teks model dan daftar kata. Tidak memakai penerjemah.</p>';
+}
+function model(m){
+  var h='<h2>Baca teks model ini</h2><p class="muted">Sentuh bagian berwarna atau kata bergaris bawah.</p><div class="card model">';
+  MODEL.forEach(function(line){
+    h+='<p>';
+    line.forEach(function(p){
+      if(p[1]==='vb') h+='<span class="vb" tabindex="0" role="button" data-i="'+esc(p[2])+'">'+esc(p[0])+'</span>';
+      else if(p[1]) h+='<span class="tag '+p[1]+'" tabindex="0" role="button" data-i="'+esc(p[2])+'">'+esc(p[0])+'</span>';
+      else h+=esc(p[0]);
+    });
+    h+='</p>';
+  });
+  h+='<div class="info" id="mi" aria-live="polite">Sentuh bagian yang berwarna.</div>'+
+  '<div class="legend"><span class="tag bentuk">bentuk / warna</span><span class="tag bahan">bahan</span><span class="tag rasa">rasa</span><span class="tag harga">harga</span><span class="vb">kata kerja</span></div></div>';
+  m.innerHTML=h+tools(false);
+  bindTools();bindModel(m);
+}
+function bindModel(root){
+  root.querySelectorAll('[data-i]').forEach(function(e){
+    var f=function(){var i=root.querySelector('.info');if(i)i.textContent=e.getAttribute('data-i')};
+    e.onclick=f;e.onkeydown=function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();f()}};
+  });
+}
+/* Mesin latihan: jawab, lihat hasil langsung, coba lagi sampai benar */
+function quiz(m,key,title,items){
+  var q=S.quiz[key];
+  if(!q){q={items:items,i:0,res:[],done:false,answered:false,retry:false,first:null};S.quiz[key]=q}
+  var h='<h2>'+title+'</h2>';
+  if(q.done){
+    var sc=q.first===null?q.res.filter(Boolean).length:q.first;
+    var total=items.length;
+    h+='<div class="card"><p class="muted">Skor pertamamu</p><div class="score">'+sc+' dari '+total+'</div>';
+    var wrong=items.filter(function(it,idx){return q.firstRes&&q.firstRes[idx]===false});
+    if(wrong.length) h+='<p style="margin-top:12px">'+wrong.length+' soal belum benar di percobaan pertama. Kamu sudah memperbaikinya.</p>';
+    else h+='<p style="margin-top:12px">Semua benar di percobaan pertama.</p>';
+    h+='</div><button id="qa">Ulangi dari awal</button>';
+    m.innerHTML=h+'<div style="height:12px"></div>'+tools(key==='p2'||key==='rounds');bindTools();
+    $('#qa').onclick=function(){delete S.quiz[key];render()};
+    return;
+  }
+  var it=q.items[q.i];
+  h+=tools(key==='p2');
+  h+='<p class="prog">Soal '+(q.i+1)+' dari '+q.items.length+(q.retry?' · ulangi yang salah':'')+'</p><div class="card"><p style="font-size:20px;margin:0">'+it.q+'</p></div>';
+  h+='<div class="opts" id="op">';
+  it.opts.forEach(function(o,k){h+='<button data-k="'+k+'">'+esc(o)+'</button>'});
+  h+='</div><div class="fb" id="fb" aria-live="polite"></div><div id="nxq"></div>';
+  m.innerHTML=h;bindTools();
+  var tried=false;
+  m.querySelectorAll('#op button').forEach(function(b){b.onclick=function(){
+    var k=+b.getAttribute('data-k'),fb=$('#fb');
+    if(k===it.a){
+      b.className='ok';fb.className='fb ok';fb.textContent='Benar. '+it.tip;
+      m.querySelectorAll('#op button').forEach(function(x){x.disabled=true});
+      if(!q.retry){q.first=(q.first||0)+(tried?0:1);q.firstRes=q.firstRes||[];q.firstRes[q.i]=!tried}
+      q.res[q.i]=!tried;
+      var last=q.i===q.items.length-1;
+      $('#nxq').innerHTML='<button class="pri" id="qn" style="width:100%">'+(last?'Lihat skor':'Soal berikutnya')+'</button>';
+      $('#qn').onclick=function(){
+        if(!last){q.i++;render();return}
+        if(!q.retry){
+          var wr=[];q.items.forEach(function(x,ix){if(q.firstRes[ix]===false)wr.push(x)});
+          S.scores[key]=q.first;
+          if(wr.length){q.items=wr;q.i=0;q.retry=true;q.res=[];render();return}
+        }
+        q.done=true;render();
+      };
+    }else{
+      tried=true;b.className='bad';fb.className='fb bad';fb.textContent='Belum tepat. '+it.tip+' Coba lagi.';
+    }
+  }});
+}
+function build(m){
+  var h='<h2>Susun kalimatmu</h2><p class="muted">Untuk tiap bagian: tulis idemu dalam bahasa Indonesia dulu, lalu lengkapi kalimat Inggris.</p>'+tools(true);
+  BUILD.forEach(function(b){
+    h+='<div class="card row"><span class="tag '+b.cls+'" style="cursor:default">'+b.t+'</span>'+
+    '<label class="f" for="id_'+b.k+'" style="margin-top:10px">Idemu dalam bahasa Indonesia</label>'+
+    '<input type="text" id="id_'+b.k+'" placeholder="'+esc(b.id)+'" value="'+esc(S.ideas[b.k]||'')+'">'+
+    '<label class="f" for="en_'+b.k+'" style="margin-top:12px">Kalimat Inggris</label>'+
+    '<div class="starter"><span>'+b.pre+'</span><input type="text" id="en_'+b.k+'" placeholder="'+esc(b.ph)+'" value="'+esc(S.sent[b.k]||'')+'"></div>'+
+    '<div style="margin-top:8px"><button class="sm" data-c="'+b.k+'">Bandingkan dengan contoh</button></div>'+
+    '<div id="cm_'+b.k+'"></div></div>';
+  });
+  m.innerHTML=h;bindTools();
+  BUILD.forEach(function(b){
+    var w=$('#en_'+b.k);
+    w.onfocus=function(){lastField=w};
+    m.querySelector('[data-c="'+b.k+'"]').onclick=function(){
+      var v=w.value.trim(),c=$('#cm_'+b.k);
+      if(!v){c.innerHTML='<div class="err">Tulis kalimatmu dulu.</div>';return}
+      c.innerHTML='<div class="info"><b>Kalimatmu:</b> '+esc(b.pre+' '+v)+'.</div><div class="model-s">Contoh: '+esc(b.ex)+'</div><p class="muted" style="margin:6px 0 0">Samakah kata kerjanya? Perbaiki kalau perlu.</p>';
+    };
+  });
+}
+function rounds(m){
+  var r=S.round;
+  var key=r===0?'r1':'r2',items=r===0?R1:R2;
+  var q=S.quiz[key];
+  if(q&&q.done&&r===0){
+    m.innerHTML='<h2>Ronde 1 selesai</h2><div class="card"><p class="muted">Skor pertamamu</p><div class="score">'+S.scores.r1+' dari '+R1.length+'</div></div><button class="pri" id="r2" style="width:100%">Mulai ronde 2</button>';
+    $('#r2').onclick=function(){S.round=1;render()};return;
+  }
+  if(q&&q.done&&r===1){
+    var s1=S.scores.r1,s2=S.scores.r2;
+    m.innerHTML='<h2>Dua ronde selesai</h2><div class="card"><p>Ronde 1: <b>'+s1+' dari '+R1.length+'</b></p><p>Ronde 2: <b>'+s2+' dari '+R2.length+'</b></p><p style="margin:0">'+(s2>=s1?'Skor ronde 2 sama atau lebih tinggi. Bagus.':'Coba ulang ronde 2 untuk menaikkan skor.')+'</p></div><button id="rr" style="width:100%">Ulangi ronde 2</button>';
+    $('#rr').onclick=function(){delete S.quiz.r2;render()};return;
+  }
+  quiz(m,key,'Latihan ulang · ronde '+(r+1),items);
+}
+function write(m){
+  m.innerHTML='<h2>Tulis tentang makanan favoritmu</h2><p class="muted">Tulis sedikitnya 5 kalimat. Tidak ada awalan kalimat sekarang. Teks model dan daftar kata boleh dibuka.</p>'+tools(true)+
+  '<label class="f" for="txt">Teksmu</label><textarea id="txt" placeholder="My favourite food is ...">'+esc(S.text)+'</textarea>'+
+  '<p class="prog" id="cnt" style="margin-top:8px" aria-live="polite"></p>';
+  bindTools();
+  var t=$('#txt');t.onfocus=function(){lastField=t};
+  function c(){var n=countSent(t.value);$('#cnt').textContent='Kalimat: '+n+' dari 5'+(n>=5?' · cukup':'')}
+  t.oninput=function(){S.text=t.value;c()};c();
+}
+function check(m){
+  var n=countSent(S.text);
+  var h='<h2>Cek tulisanmu</h2><div class="card"><pre class="t">'+esc(S.text||'(belum ada teks)')+'</pre><p class="muted" style="margin:0">Jumlah kalimat: <b>'+n+'</b></p></div>';
+  var L=['Ada 5 kalimat atau lebih.','Ada 3 detail: bentuk / warna, bahan, rasa, harga.','Kata kerja is / has / tastes sudah benar di sedikitnya 4 kalimat.'];
+  h+='<div class="card">';
+  L.forEach(function(l,i){h+='<label class="ck"><input type="checkbox" id="ck'+i+'" '+(S.checks[i]?'checked':'')+'><span>'+l+'</span></label>'});
+  h+='</div><p class="muted">Kalau ada yang belum, kembali ke langkah menulis lalu perbaiki teksmu.</p>'+
+  '<div class="err" id="e9"></div><div style="display:flex;gap:10px"><button id="wb" style="flex:1">Perbaiki teks</button><button class="pri" id="sv" style="flex:1">Simpan</button></div><div id="done"></div>';
+  m.innerHTML=h;
+  [0,1,2].forEach(function(i){$('#ck'+i).onchange=function(){S.checks[i]=this.checked;$('#e9').textContent=''}});
+  $('#wb').onclick=function(){go(STEPS.indexOf('write'))};
+  $('#sv').onclick=function(){
+    if(!S.text.trim()){$('#e9').textContent='Teksmu masih kosong. Kembali dan tulis dulu.';return}
+    if(S.checks.some(function(c){return !c})){$('#e9').textContent='Centang ketiga cek dulu. Kalau belum, perbaiki teksmu.';return}
+    var rec={no:S.no,time:new Date().toISOString(),scores:{p1:S.scores.p1,p2:S.scores.p2,r1:S.scores.r1,r2:S.scores.r2},ideas:S.ideas,sent:S.sent,text:S.text,checks:S.checks.slice(),sentences:n,rubric:[null,null,null]};
+    DB.records.push(rec);save(DB);S.saved=true;
+    $('#done').innerHTML='<div class="card" style="margin-top:14px"><h2>Selesai. Tersimpan.</h2><p>Nomor siswa: <b>'+esc(S.no)+'</b>. Tunjukkan layar ini ke gurumu.</p><button id="again">Mulai lagi</button></div>';
+    $('#again').onclick=function(){S={step:0,no:'',scores:{},ideas:{},sent:{},text:'',checks:[false,false,false],quiz:{},round:0,last:null,saved:false};render()};
+  };
+}
+/* ===== Lembar bawah ===== */
+function closeSheet(){$('#layer').innerHTML=''}
+function sheet(html){
+  $('#layer').innerHTML='<div class="sheetbg" id="sb"><div class="sheet" role="dialog" aria-modal="true">'+html+'<button id="cl" style="width:100%;margin-top:14px" class="pri">Tutup</button></div></div>';
+  $('#cl').onclick=closeSheet;
+  $('#sb').onclick=function(e){if(e.target.id==='sb')closeSheet()};
+}
+function bankSheet(){
+  var h='<h3>Daftar kata</h3><p class="muted" style="margin:0">Sentuh kata untuk memasukkannya ke kotak tulisan yang terakhir kamu pilih.</p>';
+  BANK.forEach(function(c){
+    h+='<div class="cat">'+c[0]+'</div>';
+    c[2].forEach(function(w){h+='<button class="chip" data-w="'+esc(w[0])+'"><b>'+esc(w[0])+'</b> = '+esc(w[1])+'</button>'});
+  });
+  sheet(h);
+  document.querySelectorAll('#layer .chip').forEach(function(c){c.onclick=function(){
+    var w=c.getAttribute('data-w').replace(/\(s\)/,'');
+    if(lastField&&document.body.contains(lastField)){
+      lastField.value=(lastField.value&&!/\s$/.test(lastField.value)?lastField.value+' ':lastField.value)+w;
+      lastField.dispatchEvent(new Event('input'));toast('Ditambahkan: '+w);
+    }else toast('Pilih dulu kotak tulisan');
+  }});
+}
+function modelSheet(){
+  var h='<h3>Teks model</h3><div class="model">';
+  MODEL.forEach(function(line){h+='<p style="font-size:17px">';line.forEach(function(p){
+    h+=p[1]==='vb'?'<span class="vb">'+esc(p[0])+'</span>':p[1]?'<span class="tag '+p[1]+'" style="cursor:default">'+esc(p[0])+'</span>':esc(p[0])});h+='</p>'});
+  h+='</div><div class="legend"><span class="tag bentuk">bentuk / warna</span><span class="tag bahan">bahan</span><span class="tag rasa">rasa</span><span class="tag harga">harga</span></div>';
+  sheet(h);
+}
+/* ===== Layar guru ===== */
+function teacher(){
+  var recs=DB.records;
+  var h='<h2>Hasil siswa (untuk guru)</h2><p class="muted">Data ada di HP ini saja. Nilai tiap kriteria: Tercapai atau Belum.</p><button id="tb" class="sm">Kembali ke aplikasi</button>';
+  if(!recs.length)h+='<div class="card" style="margin-top:14px"><p style="margin:0">Belum ada hasil tersimpan. Hasil muncul di sini setelah siswa menekan Simpan.</p></div>';
+  recs.forEach(function(r,i){
+    var d=new Date(r.time),when=d.toLocaleDateString('id-ID',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+    h+='<div class="card" style="margin-top:14px"><div class="recnum">Siswa nomor '+esc(r.no)+'</div><p class="muted">'+when+' · '+r.sentences+' kalimat</p>'+
+    '<p class="muted" style="margin:0">Latihan 1: '+r.scores.p1+'/'+P1.length+' · Latihan 2: '+r.scores.p2+'/'+P2.length+' · Ronde 1: '+r.scores.r1+'/'+R1.length+' · Ronde 2: '+r.scores.r2+'/'+R2.length+'</p><pre class="t">'+esc(r.text)+'</pre>';
+    ['5 kalimat atau lebih','3 detail atau lebih','Kata kerja benar di 4 dari 5 kalimat'].forEach(function(l,k){
+      h+='<div class="rec" style="margin-top:8px;padding-top:8px"><div style="font-size:15px;font-weight:700;margin-bottom:6px">'+l+'</div><div class="seg" data-r="'+i+'" data-k="'+k+'"><button class="'+(r.rubric[k]===true?'on':'')+'" data-v="1">Tercapai</button><button class="'+(r.rubric[k]===false?'on':'')+'" data-v="0">Belum</button></div></div>';
+    });
+    var ok=r.rubric.every(function(v){return v===true});
+    h+='<p style="margin:12px 0 0;font-weight:800">'+(r.rubric.some(function(v){return v===null})?'Belum selesai dinilai':ok?'Tujuan tercapai':'Tujuan belum tercapai')+'</p></div>';
+  });
+  if(recs.length)h+='<div style="margin-top:14px"><button id="ex" class="sm">Salin ringkasan</button> <button id="dl" class="sm">Hapus semua data</button><div id="cf"></div></div>';
+  $('#main').innerHTML=h;
+  $('#top').innerHTML='<p class="stepname" style="margin-top:12px">Layar guru</p>';
+  $('#bar').innerHTML='';
+  $('#tb').onclick=function(){render()};
+  document.querySelectorAll('.seg').forEach(function(s){s.querySelectorAll('button').forEach(function(b){b.onclick=function(){
+    DB.records[+s.getAttribute('data-r')].rubric[+s.getAttribute('data-k')]=b.getAttribute('data-v')==='1';save(DB);teacher();
+  }})});
+  var ex=$('#ex');if(ex)ex.onclick=function(){
+    var t=recs.map(function(r){return 'No '+r.no+' | '+r.sentences+' kalimat | '+r.rubric.map(function(v){return v===true?'Tercapai':v===false?'Belum':'-'}).join(' / ')+'\n'+r.text}).join('\n\n');
+    try{navigator.clipboard.writeText(t).then(function(){toast('Tersalin')},function(){toast('Tidak bisa menyalin')})}catch(e){toast('Tidak bisa menyalin')}
+  };
+  var dl=$('#dl');if(dl)dl.onclick=function(){
+    $('#cf').innerHTML='<div class="card" style="margin-top:10px"><p>Hapus semua hasil siswa di HP ini? Ini tidak bisa dibatalkan.</p><button id="y" class="pri sm">Ya, hapus</button> <button id="n" class="sm">Batal</button></div>';
+    $('#y').onclick=function(){DB.records=[];save(DB);teacher()};
+    $('#n').onclick=function(){$('#cf').innerHTML=''};
+  };
+}
+render();
+</script>
